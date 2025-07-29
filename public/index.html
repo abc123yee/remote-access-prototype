@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Remote GUI Connector</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    input { padding: 5px; }
+    button { padding: 6px 12px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>🔗 Connect to a Remote Machine</h2>
+  <form id="connectForm">
+    <label>IP Address: <input type="text" id="ip" placeholder="192.168.1.100" required></label><br><br>
+    <label>Port: <input type="number" id="port" value="5900" required></label><br><br>
+    <button type="submit">Connect</button>
+  </form>
+
+  <script>
+    document.getElementById('connectForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const ip = document.getElementById('ip').value;
+      const port = document.getElementById('port').value;
+      // Redirect to noVNC viewer with parameters
+      window.location.href = `/novnc/vnc.html?host=${window.location.hostname}&port=3000&path=websockify&targetHost=${ip}&targetPort=${port}`;
+    });
+  </script>
+</body>
+</html>
