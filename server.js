@@ -10,15 +10,17 @@ const wss = new WebSocket.Server({ server, path: '/websockify' });
 
 // WebSocket Proxy: Browser <-> Node <-> VNC Server
 wss.on('connection', (ws, req) => {
-  const params = new URLSearchParams(req.url.replace('/websockify?', ''));
+  // ✅ Use full URL parsing
+  const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+  const params = parsedUrl.searchParams;
 
-  // ✅ Use targetHost/targetPort (real VNC server)
+  // ✅ Get the real target machine details
   const targetHost = params.get('targetHost');
   const targetPort = parseInt(params.get('targetPort'), 10) || 5900;
 
   if (!targetHost) {
-    console.error('❌ Missing targetHost parameter');
-    ws.close();
+    console.error('❌ Missing targetHost parameter (check your noVNC URL)');
+    ws.close(1008, 'Missing targetHost');
     return;
   }
 
@@ -27,11 +29,15 @@ wss.on('connection', (ws, req) => {
     console.log(`✅ Connected to ${targetHost}:${targetPort}`);
   });
 
-  // Raw TCP forwarding
+  // ✅ Raw TCP bridge
   ws.on('message', msg => tcp.write(msg));
   tcp.on('data', data => ws.send(data));
-  ws.on('close', () => tcp.end());
   tcp.on('end', () => ws.close());
+  tcp.on('error', err => {
+    console.error(`❌ TCP error: ${err.message}`);
+    ws.close(1011, 'TCP connection failed');
+  });
+  ws.on('close', () => tcp.end());
 });
 
 
