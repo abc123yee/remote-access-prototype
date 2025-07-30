@@ -15,4 +15,3 @@ noVNC - vnc.html and vnc_lite.html files modified
 
 noVNC must be installed on target machine
 
-YO
