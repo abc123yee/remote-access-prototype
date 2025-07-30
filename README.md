@@ -1,6 +1,6 @@
 # remote-access-prototype
 
-Web Based Remote Access Prototype for Linux and Windoes
+Web Based Remote Access Prototype for Linux and Windows
 
 
 Requires the folowing dependices to be installed serverside to run
