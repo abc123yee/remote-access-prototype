@@ -82,9 +82,24 @@
         // Force path to match your Node.js proxy endpoint
         defaults['path'] = 'websockify';
 
-        // Start noVNC with dynamic parameters
+        // ✅ Handle password via URL or prompt
+        const urlPassword = params.get('password');
+        if (urlPassword) {
+            defaults['password'] = urlPassword;
+        } else {
+            // Hook into the credentials event after UI starts
+            document.addEventListener('novnc:credentialsrequired', () => {
+                const pass = prompt("Enter VNC Password:");
+                if (pass) {
+                    window.UI.rfb.sendCredentials({ password: pass });
+                }
+            });
+        }
+
+        // ✅ Start noVNC with dynamic parameters
         UI.start({ settings: { defaults, mandatory } });
     </script>
+
 
 </head>
 
