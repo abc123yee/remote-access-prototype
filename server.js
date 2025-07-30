@@ -22,7 +22,7 @@ wss.on('connection', (ws, req) => {
   const urlParams = new URLSearchParams(req.url.split('?')[1]);
   const targetIP = urlParams.get('ip');
   const targetPort = urlParams.get('port');
-  
+
   const target = `ws://${targetIP}:${targetPort}`;
   console.log(`Proxying WebSocket to ${target}`);
 

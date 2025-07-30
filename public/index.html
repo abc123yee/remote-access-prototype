@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>noVNC Web Client</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 30px; }
-    input { margin: 5px; padding: 5px; }
-    button { padding: 6px 12px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+
+    input {
+      margin: 5px;
+      padding: 5px;
+    }
+
+    button {
+      padding: 6px 12px;
+    }
   </style>
 </head>
+
 <body>
   <h2>Connect to VNC Server</h2>
   <form id="connectForm">
@@ -19,17 +31,18 @@
   </form>
 
   <script>
-    document.getElementById('connectForm').addEventListener('submit', function(e) {
+    document.getElementById('connectForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const ip = document.getElementById('ip').value;
       const port = document.getElementById('port').value;
       const user = document.getElementById('user').value;
       const pass = document.getElementById('pass').value;
-      
+
       // Redirect to noVNC with query parameters
-      window.location.href = `/novnc/vnc.html?host=${ip}&port=${port}&password=${pass}&autoconnect=true`;
+      window.location.href = `/noVNC/app/vnc.html?host=${ip}&port=${port}&password=${pass}&autoconnect=true`;
+
     });
   </script>
 </body>
-</html>
 
+</html>
